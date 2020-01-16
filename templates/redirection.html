@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    output{
+      color: black;
+      font-size: 18px;
+        font-weight: 700;
+    }
+    </style>
+<script>
+ 
+function getQueryStringValue (key) {  
+       return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+        }
+var http = new XMLHttpRequest();
+var url = 'http://104.211.204.85:8000/Clothing';
+const textdata = getQueryStringValue("proddesc").split('+').join(' ')
+let json = JSON.stringify({
+  description: textdata,
+});
+http.open('POST', url, true);
+http.responseType = 'json';
+//Send the proper header information along with the request
+http.setRequestHeader('Content-type', 'application/json');
+
+http.onreadystatechange = function() {//Call a function when the state changes
+if(http.readyState == 4 && http.status == 200) {
+
+  console.log(http.response)
+
+
+      var lines='<style>input[type=submit]{width: 15%; height: 40px;\
+        color: #1c87c9;\
+    }output[type=question]{font-size: 20px;\
+        font-weight: 500;\
+        color: #1c87c9;}h1{\
+    font-family: "Comic Sans MS", cursive, sans-serif;\
+    text-align: center;\
+    color: black;\
+    font-size: 1cm;\
+    }label{\
+    font-size: 20px;\
+        font-weight: 700;\
+        color: #1c87c9;\
+    }output{\
+      color: black;\
+      font-size: 18px;\
+        font-weight: 700;\
+    }td{\
+      border: 2px solid lightblue;\
+      text-align: left; padding: 10px;\
+    }td[id="styling"]{font-weight:700;background-color:lightblue;\}\
+    th {\
+      border: 2px solid lightblue;\
+      background-color:lightblue;\
+      text-align: center;\
+      padding: 10px;\
+    }\</style>\
+    <form action="/bert/clothing",method="GET">\
+      <center>\
+      <output type="question" id="question" name="desc" ></output></center><br></center>\
+      <h1 id="category">Category</h1>\
+    <center><table>\
+      <tr>\
+      <th>Category</th>\
+      <th>Value</th>\
+      </tr>\
+      <tr>\
+      <td id="styling">Category-1</td>\
+      <td><output type="text" id="category-1" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Category-2</td>\
+      <td><output type="text" id="category-2" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Category-3</td>\
+      <td><output type="text" id="category-3" ></output></td>\
+      </tr></table>\
+    <h1>Entities</h1>\
+    <table>\
+      <tr>\
+      <th>Entity</th>\
+      <th>Value</th>\
+      </tr>\
+      <tr>\
+      <td id="styling">Target</td>\
+      <td><output type="text" id="target" name="entityclasf" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Occasion</td>\
+      <td><output type="text" id="Occasion" name="entityclasf" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Fabric</td>\
+      <td><output type="text" id="fabric" name="entityclasf" ></output></td>\
+      </tr><tr>\
+      <td id="styling">WashType</td>\
+      <td><output type="text" id="washtype" name="entityclasf" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Color</td>\
+      <td><output type="text" id="Color" name="entityclasf" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">StichType</td>\
+      <td><output type="text" id="StichType" name="entityclasf" ></output></td>\
+      </tr><tr>\
+      <td id="styling">ItemType</td>\
+      <td><output type="text" id="ItemType" name="entityclasf" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Ethnicity</td>\
+      <td><output type="text" id="Ethnicity" name="entityclasf" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Brand</td>\
+      <td><output type="text" id="Brand" name="entityclasf" ></output></td>\
+      </tr></table><br>\
+      <h1>SEO</h1>\
+      <table>\
+      <tr>\
+      <th>Entity</th>\
+      <th>Value</th>\
+      </tr>\
+      <tr>\
+      <td id="styling">Keywords</td>\
+      <td><output type="text" id="keywords" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">Meta Description</td>\
+      <td><output type="text" id="meta" ></output></td>\
+      </tr>\
+      <tr>\
+      <td id="styling">SEO Url</td>\
+      <td><output type="text" id="seo" ></output></td>\
+      </tr></table>\
+      <br>\
+  <input  type="submit" value="click here to go back" id="submit" />\
+  </form></center>'
+  document.write(lines)
+  document.getElementById("question").innerHTML=textdata
+  if(http.response.Category[0]['Category-1']!=undefined){
+  document.getElementById("category-1").innerHTML=http.response.Category[0]['Category-1']}else{document.getElementById("category-1").innerHTML=""}
+  if(http.response.Category[0]['Category-2']!=undefined){
+  document.getElementById("category-2").innerHTML=http.response.Category[0]['Category-2']}else{document.getElementById("category-2").innerHTML=""}
+  if(http.response.Category[0]['Category-3'][0]!=undefined){
+  document.getElementById("category-3").innerHTML=http.response.Category[0]['Category-3'][0][0]}else{document.getElementById("category-3").innerHTML=""}
+
+  if(http.response.Entiites[0]['B-target']!=undefined){
+  document.getElementById("target").innerHTML=http.response.Entiites[0]['B-target']}else{document.getElementById("target").innerHTML=""}
+  if(http.response.Entiites[0]['B-occasion']!=undefined){
+  document.getElementById("Occasion").innerHTML=http.response.Entiites[0]['B-occasion']}else{document.getElementById("Occasion").innerHTML=""}
+  if(http.response.Entiites[0]['B-fabric']!=undefined){
+  document.getElementById("fabric").innerHTML=http.response.Entiites[0]['B-fabric']}else{document.getElementById("fabric").innerHTML=""}
+  if(http.response.Entiites[0]['B-color']!=undefined){
+  document.getElementById("Color").innerHTML=http.response.Entiites[0]['B-color']}else{document.getElementById("Color").innerHTML=""}
+  if(http.response.Entiites[0]['washtype']!=undefined){
+  document.getElementById("washtype").innerHTML=http.response.Entiites[0]['washtype']}else{document.getElementById("washtype").innerHTML=""}
+  if(http.response.Entiites[0]['B-stichtype']!=undefined){
+  document.getElementById("StichType").innerHTML=http.response.Entiites[0]['B-stichtype']}else{document.getElementById("StichType").innerHTML=""}
+  if(http.response.Entiites[0]['B-itemtype']!=undefined){
+  document.getElementById("ItemType").innerHTML=http.response.Entiites[0]['B-itemtype'][0]}else{document.getElementById("ItemType").innerHTML=""}
+  if(http.response.Entiites[0]['B-ethnicity']!=undefined){
+  document.getElementById("Ethnicity").innerHTML=http.response.Entiites[0]['B-ethnicity']}else{document.getElementById("Ethnicity").innerHTML=""}
+  if(http.response.Entiites[0]['B-brand']!=undefined){
+  document.getElementById("Brand").innerHTML=http.response.Entiites[0]['B-brand']}else{document.getElementById("Brand").innerHTML=""}
+
+  if(http.response.SEO[0]['KeyWords']!=undefined){
+  document.getElementById("keywords").innerHTML=http.response.SEO[0]['KeyWords'].join(' , ')}else{document.getElementById("keywords").innerHTML=""}
+  if(http.response.SEO[0]['Meta_Description']!=undefined){
+  document.getElementById("meta").innerHTML=http.response.SEO[0]['Meta_Description']}else{document.getElementById("meta").innerHTML=""}
+  if(http.response.SEO[0]['SEO_URL'][0]!=undefined){
+  document.getElementById("seo").innerHTML=http.response.SEO[0]['SEO_URL'][0]}else{document.getElementById("seo").innerHTML=""}
+}
+}
+http.send(json);
+
+</script>
+</head>
+</html>
